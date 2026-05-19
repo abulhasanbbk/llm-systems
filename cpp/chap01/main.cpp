@@ -16,11 +16,17 @@ int main() {
     B.set(1, 0, 7);
     B.set(1, 1, 8);
 
+    std::cout << "A x B:" << std::endl;
     Matrix C = A.multiply(B);
-
-    std::cout << "Matrix C:" << std::endl;
-
     C.print();
+
+    std::cout << "A + B:" << std::endl;
+    Matrix D = A.add(B);
+    D.print();
+
+    std::cout << "Transpose of A:" << std::endl;
+    Matrix At = A.transpose();
+    At.print();
 
     return 0;
 }

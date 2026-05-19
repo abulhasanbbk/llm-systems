@@ -1,6 +1,6 @@
 #include <iostream>
 #include "matrix.hpp"
-
+#include <stdexcept>
 Matrix::Matrix(int rows, int cols)
     : rows(rows), cols(cols), data(rows * cols, 0.0f) {}
 
@@ -22,6 +22,10 @@ void Matrix::print() const {
 }
 
 Matrix Matrix::multiply(const Matrix& other) const {
+    
+    if (cols != other.rows) {
+        throw std::invalid_argument("Number of columns of A must match number of rows of B.");
+    }
 
     Matrix result(rows, other.cols);
 
@@ -36,6 +40,37 @@ Matrix Matrix::multiply(const Matrix& other) const {
             }
 
             result.set(i, j, sum);
+        }
+    }
+
+    return result;
+}
+
+Matrix Matrix::add(const Matrix& other) const {
+    
+    if (rows != other.rows || cols != other.cols) {
+        throw std::invalid_argument("Matrix dimensions must match for addition.");
+    }
+    
+    Matrix result(rows, cols);
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            float value = get(i, j) + other.get(i, j);
+            result.set(i, j, value);
+        }
+    }
+
+    return result;
+}
+
+Matrix Matrix::transpose() const {
+
+    Matrix result(cols, rows);
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result.set(j, i, get(i, j));
         }
     }
 
