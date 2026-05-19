@@ -328,7 +328,34 @@ The `-O2` flag tells the compiler to optimise the code.
 
 This is important because unoptimised C++ code can be much slower.
 
-Benchmarking helps us compare different implementations, such as:
+Common optimisation flags:
+```bat
+-O0   no optimisation, best for debugging
+-O1   basic optimisation
+-O2   strong optimisation, commonly used
+-O3   more aggressive optimisation
+-Ofast very aggressive, may change floating-point behaviour
+```
+We can benchmark using different flags by producing flag specific `.exe` files :
+```bat
+g++ -O0 ...
+g++ -O2 ...
+g++ -O3 ...
+```
+The following is the benchmarking result for a 300X300 matrix multiplication using different optimisaiton flags:
+ 
+```text
+| Compiler flag | Time for 300x300 multiplication |
+|---|---|
+| -O0 | 0.228882 seconds |
+| -O2 | 0.016931  seconds |
+| -O3 | 0.0167616 seconds |
+```
+
+For more on optimisation flags see https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
+
+
+Benchmarking also helps us compare different implementations, such as:
 
 - naive matrix multiplication
 - optimised matrix multiplication
