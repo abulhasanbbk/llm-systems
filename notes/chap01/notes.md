@@ -33,3 +33,8 @@ In our implementation, a matrix is stored as a one-dimensional array:
 
 ```cpp
 std::vector<float> data;
+
+Even though we think of a matrix as 2D:
+```cpp
+1 2
+3 4
