@@ -249,7 +249,107 @@ For this reason, modern AI systems optimize matrix multiplication using:
 - quantization
 - FlashAttention-style memory optimization
 
-# 10. Connection to Transformers
+# 10. Benchmarking Matrix Multiplication
+
+After implementing matrix multiplication, we need to measure how fast it runs.
+
+This is called benchmarking.
+
+Benchmarking is important because deep learning systems are not only about correctness. They are also about performance.
+
+A matrix multiplication can give the correct result but still be too slow for real transformer inference.
+
+In our code, we use the C++ `<chrono>` library to measure execution time.
+
+```cpp
+#include <chrono>
+```
+
+We create two random matrices:
+
+```cpp
+Matrix X(300, 300);
+Matrix Y(300, 300);
+
+X.randomize(-1.0f, 1.0f);
+Y.randomize(-1.0f, 1.0f);
+```
+
+Then we record the time before multiplication:
+
+```cpp
+auto start = std::chrono::high_resolution_clock::now();
+```
+
+Next, we run matrix multiplication:
+
+```cpp
+Matrix Z = X.multiply(Y);
+```
+
+Then we record the time after multiplication:
+
+```cpp
+auto end = std::chrono::high_resolution_clock::now();
+```
+
+The elapsed time is computed using:
+
+```cpp
+std::chrono::duration<double> elapsed = end - start;
+```
+
+Finally, we print the result:
+
+```cpp
+std::cout << "Time for 300x300 matrix multiplication: "
+          << elapsed.count()
+          << " seconds"
+          << std::endl;
+```
+
+This gives us the time taken by our matrix multiplication function.
+
+For example, the output may look like:
+
+```text
+Time for 300x300 matrix multiplication: 0.035 seconds
+```
+
+The exact value depends on the computer, compiler, and optimisation level.
+
+When compiling benchmark code, we should use compiler optimisation:
+
+```bat
+g++ -O2 cpp/chap01/main.cpp cpp/chap01/matrix.cpp -o cpp/chap01/main.exe
+```
+
+The `-O2` flag tells the compiler to optimise the code.
+
+This is important because unoptimised C++ code can be much slower.
+
+Benchmarking helps us compare different implementations, such as:
+
+- naive matrix multiplication
+- optimised matrix multiplication
+- blocked matrix multiplication
+- quantized matrix multiplication
+- GPU matrix multiplication
+
+This is the beginning of performance engineering.
+
+In deep learning systems research, benchmarking is essential because modern models are limited not only by mathematics, but also by:
+
+- memory access
+- cache usage
+- CPU speed
+- GPU speed
+- numerical precision
+- data movement
+
+This is why matrix multiplication is the right starting point for studying transformers, quantization, and efficient inference.
+
+# 11. Connection to Transformers
 
 Transformers repeatedly perform operations like:
 
@@ -273,7 +373,7 @@ This means:
 
 are the true foundations of transformer systems research.
 
-# 11. What We Have Built
+# 12. What We Have Built
 
 At this stage, we now have:
 

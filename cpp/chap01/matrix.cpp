@@ -1,6 +1,7 @@
 #include <iostream>
 #include "matrix.hpp"
 #include <stdexcept>
+#include <random>
 Matrix::Matrix(int rows, int cols)
     : rows(rows), cols(cols), data(rows * cols, 0.0f) {}
 
@@ -10,6 +11,17 @@ void Matrix::set(int row, int col, float value) {
 
 float Matrix::get(int row, int col) const {
     return data[row * cols + col];
+}
+
+void Matrix::randomize(float min, float max) {
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> dist(min, max);
+
+    for (int i = 0; i < rows * cols; i++) {
+        data[i] = dist(gen);
+    }
 }
 
 void Matrix::print() const {

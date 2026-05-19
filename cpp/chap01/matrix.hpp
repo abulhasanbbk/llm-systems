@@ -18,6 +18,8 @@ public:
 
     void print() const;
 
+    void randomize(float min, float max);
+
     Matrix multiply(const Matrix& other) const;
 
     Matrix add(const Matrix& other) const;
